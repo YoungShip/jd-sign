@@ -1,0 +1,540 @@
+{
+  "京豆": [
+    {
+      "name": "红包打卡",
+      "url": "openapp.jdmobile://virtual?params={%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Hrsxxra%22%7D",
+      "lock": true
+    },
+    {
+      "name": "黑五签到",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Sg264g5%22%7D",
+      "lock": false
+    },
+    {
+      "name": "0点",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YDBWdC0%22%7D",
+      "lock": false
+    },
+    {
+      "name": "秒杀",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://lzdz-isv.isvjcloud.com/lzclient/cjwx/common/openJDApp.html?actlink=https://u.jd.com/DaW8ZPA%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签到",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/activity/new-sign-in/home/?channelLv=shouyedou&jrtransparentbar=true&jrcontainer=h5&jrlogin=true",
+      "lock": false
+    },
+    {
+      "name": "签双",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://member.jr.jd.com/activity/double/?channelLv=zdddrw%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签豆",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/DDhNXQ0%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签二",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://laputa.jd.com/nurse1/pages/index/index%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签三",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://laputa.jd.com/onlineDoctorWel/pages/index/index%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签四",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://m-car.jd.com/housekeeper/task%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签五",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/D65rrHU%22%7D",
+      "lock": false
+    },
+    {
+      "name": "农场",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/42HV4J3Q87B2xFQMJk81PCc1mEs3/index.html?inviteCode=ycXdOfjp_Q7MCB9bFZTGT4PiJg&babelChannel=ttt19&jwebprog=0&hybrid_err_view=1&_ts=1758700818023&utm_user=plusmember&gx=RnAoxW9ZajDZwpF68sgmGYo&gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=QRCode_shareid869ab21678152d9a175870083287450742_none_none%22%7D",
+      "lock": false
+    },
+    {
+      "name": "家居",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/4SitPQagKibGQK1HX7J83sroHj5x/index.html?stath=20&navh=44&collectionId=224&tttparams=E82SpX7yEeyJhZGRyZXNzSWQiOjEyNTE5MTQyNjcyLCJhcmVhQ29kZSI6MCwiY29ybmVyIjoxLCJkTGF0IjowLCJkTG5nIjowLCJkbCI6MiwiZ0xhdCI6IjIzLjY0OTUxMTU5MDAzNjk2IiwiZ0xuZyI6IjExNi41OTk0OTEyNjMzODExNCIsImdwc19hcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsImxhdCI6MjMuNjQ5NDY1LCJsYnNBcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsImxic0xhdCI6IjIzLjY0OTUxMTU5MDAzNjk2IiwibGJzTG5nIjoiMTE2LjU5OTQ5MTI2MzM4MTE0IiwibG5nIjoxMTYuNTk5ODI0LCJtb2RlbCI6IlYyMjc4QSIsIm9zIjoiMTMiLCJwb3NMYXQiOiIyMy42NDk1MTE1OTAwMzY5NiIsInBvc0xuZyI6IjExNi41OTk0OTEyNjMzODExNCIsInByc3RhdGUiOiIwIiwic2NhbGUiOjMsInVlbXBzIjoiMC0yLTAiLCJ1bl9hcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsIndpZHRoIjoxMDgwfQ9%3D%3D&vid=S5KkcEntCvDSDZX-jw7NK&from=kouling%22%7D",
+      "lock": false
+    },
+    {
+      "name": "家具",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3btTwvxiQAaMRpGL5vV1d6vekVEK/index.html?vid=SuPVzQhoZ_F24fQ&amp;from=kouling&amp;babelChannel=ttt1&amp;_ts=1774320531694&amp;utm_user=plusmember&amp;gx=RnAoxW9ZajDZwpF68sgmGYo&amp;gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&amp;ad_od=share&amp;utm_source=androidapp&amp;utm_medium=appshare&amp;utm_campaign=t_335139774&amp;utm_term=Wxfriends_shareid869ab21678152d9a177432053838582126_none_none%22%7D",
+      "lock": false
+    },
+    {
+      "name": "涨跌",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://stock-mix.jd.com/activity/stock-guess/?pageId=11380815178780736&jrcontainer=h5&jrlogin=true%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签豆",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/De5VMnmgZdY2Pyk3/?pageKey=De5VMnmgZdY2Pyk3%22%7D",
+      "lock": false
+    },
+    {
+      "name": "领豆",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YRyxP%22%7D",
+      "lock": false
+    },
+    {
+      "name": "领二",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2M9pgFZ%22%7D",
+      "lock": false
+    },
+    {
+      "name": "领三",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/frK2MyF%22%7D",
+      "lock": false
+    },
+    {
+      "name": "领六",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3kJySXAsWt6yaACgabnBPAMwde2K/index.html?stath=20&navh=44&from=kouling&channelType=0&babelChannel=ttt125&activityChannel=jdapp&femobile=femobile&inviterId=6i2QV130c22H_0qrVt7BLg%22%7D",
+      "lock": false
+    },
+    {
+      "name": "飞行",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3VeB2YCUT4XLVJKWM3W5wXMA7JXG/index.html?jwebprog=0&hybrid_err_view=1&wegameInviterId=6i2QV130c22H_0qrVt7BLg&channelType=1&femobile=femobile&wegameType=5&babelChannel=ttt40%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2Eu-ohFE%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子2",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2EvktL-K%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子3",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2KLZ-jMU%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子4",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2LiT7-BJ%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子5",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2-LiTbQo%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子6",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2LiTfso%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子7",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2M2QLG-M%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子8",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2LiU-CNK%22%7D",
+      "lock": false
+    },
+    {
+      "name": "圈子9",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2LiV9X6%22%7D",
+      "lock": false
+    },
+    {
+      "name": "七鲜",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/J6RwKTo%22%7D",
+      "lock": false
+    },
+    {
+      "name": "新奇",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nDYRz77%22%7D",
+      "lock": false
+    },
+    {
+      "name": "左中",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2P8-GV42%22%7D",
+      "lock": false
+    },
+    {
+      "name": "元宵抽",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2MH-zO9t%22%7D",
+      "lock": false
+    },
+    {
+      "name": "家电",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2P8HNwV%22%7D",
+      "lock": false
+    },
+    {
+      "name": "下方",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://prodev.m.jd.com/mall/active/jVKT3TKjwfjR1kFLcRgjgAEerBc/index.html?cu=true&utm_source=lianmeng__10__kong&utm_medium=tuiguang&utm_campaign=t_1000124592_&utm_term=45c512a388d74f58afd401fd65fe0f80%22%7D",
+      "lock": false
+    },
+    {
+      "name": "左上角",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/Aaf8339%22%7D",
+      "lock": false
+    },
+    {
+      "name": "点推荐-特价",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/jO2DMWr%22%7D",
+      "lock": false
+    },
+    {
+      "name": "好礼",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/jD2Slt9%22%7D",
+      "lock": false
+    },
+    {
+      "name": "校园",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/ErI2LEc%22%7D",
+      "lock": false
+    },
+    {
+      "name": "低价",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/EGz5QFB%22%7D",
+      "lock": false
+    },
+    {
+      "name": "19点",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dr5TUoI%22%7D",
+      "lock": false
+    },
+    {
+      "name": "中间",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YDVLW0t%22%7D",
+      "lock": false
+    },
+    {
+      "name": "种豆",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/jOPwwbP%22%7D",
+      "lock": true
+    },
+    {
+      "name": "小哥",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jchd.jd.com/index.html%22%7D",
+      "lock": false
+    },
+    {
+      "name": "第三个",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jingcai-h5.jd.com/%23/%22%7D",
+      "lock": false
+    },
+    {
+      "name": "服务",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/NOVMMAj%23/%22%7D",
+      "lock": false
+    },
+    {
+      "name": "猜价",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/pOPVcoh%22%7D",
+      "lock": false
+    },
+    {
+      "name": "好运",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3iXU1kvcZaGz6Xf9L3cJ9aCS6ShN/index.html?has_native=0&jwebprog=0&hybrid_err_view=1&transparent=1&ad_od=1&hongbao=1&babelChannel=ttt204&linkArea=baoyou&mTabId=2LcucMHYX7aXz92Qh7JBHBo6DACH&linkTabId=fc7c33af66d366239a65135a25146694&linkTopTab=best%22%7D",
+      "lock": false
+    },
+    {
+      "name": "天天",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://iu.jr.jd.com/insurance/channel/interest?showTab=1%22%7D",
+      "lock": false
+    },
+    {
+      "name": "浏览",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/c1yDYT4%22%7D",
+      "lock": false
+    },
+    {
+      "name": "女性",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/fgFzho4%22%7D",
+      "lock": false
+    },
+    {
+      "name": "月光宝盒",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Hg8870D%22%7D",
+      "lock": false
+    },
+    {
+      "name": "养龙虾",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/HaD90Kz%22%7D",
+      "lock": false
+    },
+    {
+      "name": "签到joy",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/zwQevn030roPNpO0/?pageKey=zwQevn030roPNpO0&sid=%23/%22%7D",
+      "lock": false
+    }
+  ],
+  "红包": [
+    {
+      "name": "余额",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://ipay.jd.com/m/balanceact/main?source=wallet%22%7D",
+      "lock": false
+    },
+    {
+      "name": "奖",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRnsB%22%7D",
+      "lock": false
+    },
+    {
+      "name": "超市卡",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fu.jd.com%2FBGYV8UP%22%7D",
+      "lock": false
+    },
+    {
+      "name": "微签",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P67htti%22%7D",
+      "lock": false
+    },
+    {
+      "name": "拼手气",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P17nStN%22%7D",
+      "lock": false
+    },
+    {
+      "name": "分享",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Pr7fQxc%22%7D",
+      "lock": false
+    },
+    {
+      "name": "挖宝",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YR6sX%22%7D",
+      "lock": false
+    },
+    {
+      "name": "新品",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/cgeGieY%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽奖",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/B2Y13x641hwWfpsoRenCzfbz4jR/index.html?inviterId=6i2QV130c22H_0qrVt7BLg&channelType=1&femobile=femobile&babelChannel=ttt125&_ts=1758790169155&utm_user=plusmember&gx=RnAoxW9ZajDZwpF68sgmGYo&gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=QRCode_shareid869ab21678152d9a175879016927629986_none_none%22%7D",
+      "lock": false
+    }
+  ],
+  "零杂": [
+    {
+      "name": "金豆",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/LJ8G/?pageKey=LJ8G&fundUtmSource=1297&fundUtmParam=GoldenBeans24_scwojing_icon%22%7D",
+      "lock": false
+    },
+    {
+      "name": "话费",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://mypoint-new.jd.com/predeem/%23/rechange%22%7D",
+      "lock": false
+    },
+    {
+      "name": "看视频",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/f1Jq0xh%22%7D",
+      "lock": false
+    },
+    {
+      "name": "按钮",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/DO5N2hD%22%7D",
+      "lock": false
+    },
+    {
+      "name": "超市",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dr54Ixn%22%7D",
+      "lock": false
+    },
+    {
+      "name": "数码",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dg5fwcH%22%7D",
+      "lock": false
+    },
+    {
+      "name": "探索",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jgc.jd.com/game/zone/pages/gameZone/index?source=5%22%7D",
+      "lock": false
+    },
+    {
+      "name": "盲盒",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nOYRGDL%22%7D",
+      "lock": false
+    },
+    {
+      "name": "PLUS",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRMzI%22%7D",
+      "lock": false
+    },
+    {
+      "name": "白签到",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://btfront.jd.com/release/credit_envelop/index/?channelName=204&position=task&jrcontainer=h5&jrlogin=true&jrcloseweb=false&utm_term=copyurl%22%7D",
+      "lock": false
+    },
+    {
+      "name": "打卡免单",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nrYjqW6%22%7D",
+      "lock": false
+    },
+    {
+      "name": "1分抢好物",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3Hvf2k1LSckoPsHhMmwY3RwrcrgL/index.html?vid=SuPVzQhoZ_F24fQ&shareId=SuPVzQhoZ_F24fQ&type=3&babelChannel=ttt1&_ts=1763387529844&utm_user=plusmember&gx=RnAoxW9ZajDZwpF68sgmGYo&gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL_shareid869ab21678152d9a176338753215276846_zuofanyouxi_none%22%7D",
+      "lock": false
+    },
+    {
+      "name": "试用",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P1HTaTb%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽奖-狗粮",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/NrwYdrw%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽奖-大药房",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/vOwlBJ6%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽奖-普通抽",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n1YRSjI%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽奖-图书",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Da5NGof%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽奖-家装",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/vD6ybDq%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽签",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YRvpr%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽签2",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/ngYR0eM%22%7D",
+      "lock": false
+    },
+    {
+      "name": "抽签3",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nDYR3JT%22%7D",
+      "lock": false
+    }
+  ],
+  "金融": [
+    {
+      "name": "出报销",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/jdjr/active/3qAbfE8FMHj6bKbAp5fJry1X7sz5/index.html?has_native=0&channel=BXJ-XY&subChannel=BXJ-JRAPPSS&fireye_union=800004168&fireye_channel=71740520&jrcontainer=h5&jrlogin=false&utm_term=copyurl%22%7D",
+      "lock": false
+    },
+    {
+      "name": "打卡-报销",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/22xbyy97nGuywa9JbrnHBe1Yrdxu/index.html&channel=baitiao?jrcontainer=h5&jrlogin=true&jrcloseweb=false&sid=%22%7D",
+      "lock": false
+    },
+    {
+      "name": "最下方",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://eco.jr.jd.com/app-new/?jrcontainer=h5&jrlogin=false",
+      "lock": false
+    },
+    {
+      "name": "现视频",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://content.jr.jd.com/shareProject/shortVideo/transverse/index.html?contentId=824242245632133120",
+      "lock": false
+    },
+    {
+      "name": "豆赚京豆",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/member/coinQuest/coin/?mission=1",
+      "lock": false
+    },
+    {
+      "name": "豆银行卡",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://ipay.jd.com/m/bankicon/?source=QBYE&utm term=copyurl",
+      "lock": false
+    },
+    {
+      "name": "豆联名卡",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://jccapt.jr.jd.com/home?channelCode=jd-sc-pdyzgdrw&sid=&showPortalTab=1&utm_term=copyurl",
+      "lock": false
+    },
+    {
+      "name": "豆赚豆",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://show.jd.com/m/RkO0AE9rKrYy6ZDd/?pageKey=RkO0AE9rKrYy6ZDd",
+      "lock": false
+    },
+    {
+      "name": "豆苏超",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://show.jd.com/m/0LXdKEpV3ZopyQP5/?pageKey=0LXdKEpV3ZopyQP5",
+      "lock": false
+    },
+    {
+      "name": "豆投豆",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/activity/invest-earn-more/index/",
+      "lock": false
+    },
+    {
+      "name": "豆保险",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://fc.jr.jd.com/channel/financing-channel/index/?channel=wojingicon&fundUtmSource=1297&fundUtmParam=fundDetail",
+      "lock": false
+    },
+    {
+      "name": "豆省钱",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/member/mermberRights/rightsCenter?hiddenTab=1&channel=380&romaFileName=page_rights_entry",
+      "lock": false
+    },
+    {
+      "name": "红领红包",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://fu.jr.jd.com/fq-free-channel/redenvelope/index.html?jrcontainer=h5&jrlogin=true",
+      "lock": false
+    },
+    {
+      "name": "理财日",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://show.jd.com/m/dPM1/?pageKey=dPM1",
+      "lock": false
+    },
+    {
+      "name": "游种菜",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/rich-farm/index.html?channel=cfzy&jrtransparentbar=true",
+      "lock": false
+    },
+    {
+      "name": "游捕鱼",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://content.jr.jd.com/article/index.html?pageId=722101557",
+      "lock": false
+    },
+    {
+      "name": "游养猪",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channelLV=table",
+      "lock": false
+    },
+    {
+      "name": "游养鹅",
+      "url": "jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/cloudgoose/index/?channelLV=table",
+      "lock": false
+    },
+    {
+      "name": "游旺旺",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://joypark.jd.com/?activityId=99DZNpaCTAv8f4TuKXr0Ew&wgCommonHeadLinkId=_TRRPkXRNfJDiCfvwwRNuQ&activityChannel=myjdicon%22%7D",
+      "lock": false
+    },
+    {
+      "name": "游PLUS",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YOqz1hX%22%7D",
+      "lock": false
+    },
+    {
+      "name": "游餐厅",
+      "url": "openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jr.jd.com/uc-fe-wxgrowing/jr_game/dd-restaurant/index.html?channel=desktopIcon&jrcontainer=h5&jrlogin=true%22%7D",
+      "lock": false
+    }
+  ]
+}
