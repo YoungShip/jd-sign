@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>京东签到</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f5f5f5;
+  --card: #fff;
+  --red: #e4393c;
+  --red-light: #fef0f0;
+  --text: #333;
+  --text2: #999;
+  --border: #eee;
+  --done-bg: #f0f9f0;
+  --done-text: #52c41a;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding-bottom: 80px;
+  -webkit-tap-highlight-color: transparent;
+}
+.header {
+  background: var(--red);
+  color: #fff;
+  padding: 20px 16px 16px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header h1 { font-size: 18px; font-weight: 600; }
+.header .sub { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.stats span { opacity: 0.9; }
+.stats .num { font-weight: 700; font-size: 16px; }
+
+.category {
+  margin: 12px 12px 0;
+}
+.category-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.category-title .icon { font-size: 16px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+}
+
+.item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.item:active { transform: scale(0.95); }
+.item .emoji { font-size: 22px; }
+.item .name { line-height: 1.3; }
+.item .lock {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 10px;
+}
+
+.item.done {
+  background: var(--done-bg);
+  border-color: var(--done-text);
+}
+.item.done .name { color: var(--done-text); }
+.item.done::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 10px;
+  color: var(--done-text);
+  font-weight: 700;
+}
+
+/* 一键签到按钮 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+  z-index: 100;
+}
+.btn-all {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-all:active { opacity: 0.8; }
+.btn-reset {
+  width: 100%;
+  background: transparent;
+  color: var(--text2);
+  border: none;
+  padding: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+/* 选中动画 */
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.item.just-done { animation: pop 0.3s ease; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🐶 京东每日签到</h1>
+  <div class="sub" id="date"></div>
+  <div class="stats">
+    <span>已完成 <span class="num" id="doneCount">0</span></span>
+    <span>/</span>
+    <span>共 <span class="num" id="totalCount">0</span></span>
+  </div>
+</div>
+
+<div id="app"></div>
+
+<div class="bottom-bar">
+  <button class="btn-all" onclick="openAll()">🚀 一键全部签到</button>
+  <button class="btn-reset" onclick="resetAll()">重置今日记录</button>
+</div>
+
+<script>
+const DATA = {
+  "日常": {
+    icon: "📅",
+    items: [
+      {name:"签到领豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fpro.m.jd.com%2Fmall%2Factive%2F3VeB2YCUT4XLVJKWM3W5wXMA7JXG%2Findex.html%3Fjwebprog%3D0%26hybrid_err_view%3D1%26wegameInviterId%3DNjhtfqPCo-Ng-g8hiELX2A%26channelType%3D1%26femobile%3Dfemobile%26wegameType%3D5%26babelChannel%3Dttt40%22%7D"},
+      {name:"种豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fu.jd.com%2FjOPwwbP%22%7D",lock:true},
+      {name:"飞行",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3VeB2YCUT4XLVJKWM3W5wXMA7JXG/index.html?jwebprog=0&hybrid_err_view=1&wegameInviterId=NjhtfqPCo-Ng-g8hiELX2A&channelType=1&femobile=femobile&wegameType=5&babelChannel=ttt40%22%7D"},
+      {name:"圈子",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2Eu-ohFE%22%7D"},
+      {name:"七鲜",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/J6RwKTo%22%7D"},
+      {name:"种豆2",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/jOPwwbP%22%7D",lock:true},
+      {name:"小哥",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jchd.jd.com/index.html%22%7D"},
+      {name:"签到joy",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/zwQevn030roPNpO0/?pageKey=zwQevn030roPNpO0&sid=%23/%22%7D"}
+    ]
+  },
+  "红包": {
+    icon: "🧧",
+    items: [
+      {name:"余额",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://ipay.jd.com/m/balanceact/main?source=wallet%22%7D"},
+      {name:"奖",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRnsB%22%7D"},
+      {name:"超市卡",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fu.jd.com%2FBGYV8UP%22%7D"},
+      {name:"微签",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P67htti%22%7D"},
+      {name:"拼手气",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P17nStN%22%7D"},
+      {name:"分享",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Pr7fQxc%22%7D"},
+      {name:"挖宝",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YR6sX%22%7D"},
+      {name:"新品",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/cgeGieY%22%7D"},
+      {name:"抽奖",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/B2Y13x641hwWfpsoRenCzfbz4jR/index.html?inviterId=6i2QV130c22H_0qrVt7BLg%22%7D"}
+    ]
+  },
+  "零杂": {
+    icon: "🎯",
+    items: [
+      {name:"金豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/LJ8G/?pageKey=LJ8G&fundUtmSource=1297&fundUtmParam=GoldenBeans24_scwojing_icon%22%7D"},
+      {name:"话费",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://mypoint-new.jd.com/predeem/%23/rechange%22%7D"},
+      {name:"看视频",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/f1Jq0xh%22%7D"},
+      {name:"PLUS",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRMzI%22%7D"},
+      {name:"白签到",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://btfront.jd.com/release/credit_envelop/index/?channelName=204&position=task&jrcontainer=h5&jrlogin=true&jrcloseweb=false&utm_term=copyurl%22%7D"},
+      {name:"打卡免单",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nrYjqW6%22%7D"},
+      {name:"试用",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P1HTaTb%22%7D"}
+    ]
+  },
+  "金融": {
+    icon: "💰",
+    items: [
+      {name:"出报销",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/jdjr/active/3qAbfE8FMHj6bKbAp5fJry1X7sz5/index.html?has_native=0&channel=BXJ-XY&subChannel=BXJ-JRAPPSS%22%7D"},
+      {name:"打卡-报销",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/22xbyy97nGuywa9JbrnHBe1Yrdxu/index.html&channel=baitiao?jrcontainer=h5&jrlogin=true&jrcloseweb=false&sid=%22%7D"},
+      {name:"豆赚京豆",url:"jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/member/coinQuest/coin/?mission=1"},
+      {name:"豆银行卡",url:"jdmobile://share?jumpType=8&jumpUrl=https://ipay.jd.com/m/bankicon/?source=QBYE&utm term=copyurl"},
+      {name:"红领红包",url:"jdmobile://share?jumpType=8&jumpUrl=https://fu.jr.jd.com/fq-free-channel/redenvelope/index.html?jrcontainer=h5&jrlogin=true"},
+      {name:"游种菜",url:"jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/rich-farm/index.html?channel=cfzy&jrtransparentbar=true"},
+      {name:"游旺旺",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://joypark.jd.com/?activityId=99DZNpaCTAv8f4TuKXr0Ew%22%7D"}
+    ]
+  }
+};
+
+// 今日key，每天自动重置
+function todayKey() {
+  const d = new Date();
+  return `jd_sign_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
+}
+
+function getDone() {
+  try { return JSON.parse(localStorage.getItem(todayKey()) || '{}'); } catch { return {}; }
+}
+function setDone(done) {
+  localStorage.setItem(todayKey(), JSON.stringify(done));
+}
+
+let totalItems = [];
+let allDone = getDone();
+
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  totalItems = [];
+  
+  // 日期
+  const now = new Date();
+  document.getElementById('date').textContent = 
+    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${'日一二三四五六'[now.getDay()]}`;
+  
+  let doneCount = 0;
+  
+  for (const [cat, data] of Object.entries(DATA)) {
+    const section = document.createElement('div');
+    section.className = 'category';
+    
+    const title = document.createElement('div');
+    title.className = 'category-title';
+    title.innerHTML = `<span class="icon">${data.icon}</span>${cat}`;
+    section.appendChild(title);
+    
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    
+    data.items.forEach((item, i) => {
+      const key = `${cat}_${i}`;
+      totalItems.push({ key, ...item });
+      
+      const a = document.createElement('a');
+      a.className = 'item' + (allDone[key] ? ' done' : '');
+      a.href = item.url;
+      a.dataset.key = key;
+      
+      if (allDone[key]) doneCount++;
+      
+      // emoji based on category
+      const emojis = {
+        '日常': ['✏️','🌱','✈️','👥','🥬','🌱','🏃','🐕'],
+        '红包': ['💳','🏆','🎫','📝','🎲','📤','⛏️','🆕'],
+        '零杂': ['🪙','📱','📺','⭐','✅','🏷️','🎁'],
+        '金融': ['💸','📋','🫘','🏦','🧧','🌾','🐕']
+      };
+      const emoji = (emojis[cat] || [])[i] || '🔗';
+      
+      a.innerHTML = `
+        <span class="emoji">${emoji}</span>
+        <span class="name">${item.name}</span>
+        ${item.lock ? '<span class="lock">🔒</span>' : ''}
+      `;
+      
+      a.addEventListener('click', function(e) {
+        // 标记为已完成
+        allDone[key] = true;
+        setDone(allDone);
+        this.classList.add('done', 'just-done');
+        setTimeout(() => this.classList.remove('just-done'), 300);
+        updateStats();
+      });
+      
+      grid.appendChild(a);
+    });
+    
+    section.appendChild(grid);
+    app.appendChild(section);
+  }
+  
+  document.getElementById('totalCount').textContent = totalItems.length;
+  document.getElementById('doneCount').textContent = doneCount;
+}
+
+function updateStats() {
+  const done = Object.keys(allDone).length;
+  document.getElementById('doneCount').textContent = done;
+}
+
+function openAll() {
+  // 按顺序打开所有未完成的
+  const remaining = totalItems.filter(it => !allDone[it.key]);
+  if (remaining.length === 0) {
+    alert('今天全签完啦！🎉');
+    return;
+  }
+  
+  if (!confirm(`还有 ${remaining.length} 个未签到，要全部打开吗？`)) return;
+  
+  remaining.forEach((item, i) => {
+    setTimeout(() => {
+      window.location.href = item.url;
+      allDone[item.key] = true;
+      setDone(allDone);
+    }, i * 800);
+  });
+  
+  // 刷新UI
+  setTimeout(() => render(), remaining.length * 800 + 500);
+}
+
+function resetAll() {
+  if (!confirm('确定要重置今日签到记录？')) return;
+  localStorage.removeItem(todayKey());
+  allDone = {};
+  render();
+}
+
+// 每天0点自动重置
+setInterval(() => {
+  const curKey = todayKey();
+  const stored = Object.keys(allDone).length;
+  // 如果key变了说明跨天了
+  if (!localStorage.getItem(curKey)) {
+    allDone = {};
+    render();
+  }
+}, 60000);
+
+render();
+</script>
+</body>
+</html>
