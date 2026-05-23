@@ -153,6 +153,93 @@ body {
   line-height: 1.5;
   border: 1px solid #ffe7ba;
 }
+.toolbar-card, .panel {
+  margin: 12px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.toolbar-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.tool-btn, .mini-btn {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 8px;
+  font-size: 12px;
+  color: var(--text);
+}
+.tool-btn:active, .mini-btn:active { transform: scale(0.98); }
+.panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.panel-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.panel-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.sync-status {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.hidden-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hidden-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  font-size: 13px;
+}
+.hidden-item .meta { color: var(--text2); font-size: 12px; }
+.hidden-empty {
+  color: var(--text2);
+  font-size: 12px;
+  padding: 4px 0;
+}
+.item .hide-btn {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 10px;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  border-radius: 999px;
+  padding: 2px 5px;
+  line-height: 1;
+}
+.item .hide-btn:active { transform: scale(0.92); }
 @keyframes pop {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
@@ -174,6 +261,35 @@ body {
 </div>
 
 <div class="note">已恢复旧版样式，同时接入这次新抓到的数据：共 106 个入口，4 个分类。微信里部分 deep link 可能拦截，浏览器里打开更稳。</div>
+
+<div class="toolbar-card">
+  <button class="tool-btn" onclick="toggleGitHubPanel()">☁️ GitHub云同步</button>
+  <button class="tool-btn" onclick="toggleHiddenPanel()">🙈 管理隐藏项</button>
+  <button class="tool-btn" onclick="clearHidden()">♻️ 恢复全部</button>
+</div>
+
+<div class="panel" id="githubPanel" style="display:none;">
+  <div class="panel-title">GitHub Gist 云同步</div>
+  <div class="panel-desc">Token 和 Gist ID 只保存在你当前浏览器的 localStorage，不会写进网页源码。建议使用最小权限 token。</div>
+  <input class="input" id="ghToken" type="password" placeholder="GitHub token（仅本机保存）">
+  <input class="input" id="ghGistId" type="text" placeholder="Gist ID（可先留空，点初始化自动创建）">
+  <input class="input" id="ghFilename" type="text" placeholder="文件名，默认 jd-sign-hidden.json">
+  <div class="panel-actions">
+    <button class="mini-btn" onclick="saveGitHubSettings()">保存设置</button>
+    <button class="mini-btn" onclick="initCloudConfig()">初始化云配置</button>
+  </div>
+  <div class="panel-actions">
+    <button class="mini-btn" onclick="pullCloudHidden()">从云端拉取</button>
+    <button class="mini-btn" onclick="pushCloudHidden()">同步到云端</button>
+  </div>
+  <div class="sync-status" id="syncStatus">未配置</div>
+</div>
+
+<div class="panel" id="hiddenPanel" style="display:none;">
+  <div class="panel-title">已隐藏项目</div>
+  <div class="panel-desc">点“恢复”可重新显示。每个卡片右上角的 🙈 可直接隐藏。</div>
+  <div id="hiddenList" class="hidden-list"></div>
+</div>
 
 <div id="app"></div>
 
@@ -316,14 +432,176 @@ function todayKey() {
   const d = new Date();
   return `jd_sign_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
 }
+const HIDDEN_KEY = 'jd_sign_hidden_v1';
+const GH_SETTINGS_KEY = 'jd_sign_github_sync_v1';
 function getDone() {
   try { return JSON.parse(localStorage.getItem(todayKey()) || '{}'); } catch { return {}; }
 }
 function setDone(done) {
   localStorage.setItem(todayKey(), JSON.stringify(done));
 }
+function getHidden() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(HIDDEN_KEY) || '[]');
+    return Array.isArray(raw) ? raw : [];
+  } catch {
+    return [];
+  }
+}
+function setHidden(hidden) {
+  localStorage.setItem(HIDDEN_KEY, JSON.stringify([...new Set(hidden)]));
+}
+function getGitHubSettings() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(GH_SETTINGS_KEY) || '{}');
+    return {
+      token: raw.token || '',
+      gistId: raw.gistId || '',
+      filename: raw.filename || 'jd-sign-hidden.json'
+    };
+  } catch {
+    return { token: '', gistId: '4f54810dbf99fce9224f43863fd271be', filename: 'jd-sign-hidden.json' };
+  }
+}
+function setGitHubSettings(data) {
+  localStorage.setItem(GH_SETTINGS_KEY, JSON.stringify({
+    token: data.token || '',
+    gistId: data.gistId || '',
+    filename: data.filename || 'jd-sign-hidden.json'
+  }));
+}
+function applyGitHubSettingsToInputs() {
+  const cfg = getGitHubSettings();
+  document.getElementById('ghToken').value = cfg.token;
+  document.getElementById('ghGistId').value = cfg.gistId;
+  document.getElementById('ghFilename').value = cfg.filename || 'jd-sign-hidden.json';
+  const status = document.getElementById('syncStatus');
+  status.textContent = cfg.gistId ? `已配置 Gist：${cfg.gistId}` : '未配置';
+}
+function saveGitHubSettings() {
+  const token = document.getElementById('ghToken').value.trim();
+  const gistId = document.getElementById('ghGistId').value.trim();
+  const filename = document.getElementById('ghFilename').value.trim() || 'jd-sign-hidden.json';
+  setGitHubSettings({ token, gistId, filename });
+  document.getElementById('syncStatus').textContent = gistId ? `设置已保存
+Gist：${gistId}` : '设置已保存，暂未填写 Gist ID';
+}
+function toggleGitHubPanel() {
+  const el = document.getElementById('githubPanel');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+function toggleHiddenPanel() {
+  const el = document.getElementById('hiddenPanel');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  refreshHiddenList();
+}
+function allItemsCatalog() {
+  const rows = [];
+  for (const [cat, data] of Object.entries(DATA)) {
+    data.items.forEach((item, i) => {
+      rows.push({ key: `${cat}_${i}`, cat, index: i, name: item.name, url: item.url, lock: !!item.lock });
+    });
+  }
+  return rows;
+}
+function buildCloudPayload() {
+  return {
+    version: 1,
+    updatedAt: new Date().toISOString(),
+    hiddenKeys: getHidden()
+  };
+}
+function parseCloudPayload(text) {
+  const obj = JSON.parse(text || '{}');
+  const hiddenKeys = Array.isArray(obj.hiddenKeys) ? obj.hiddenKeys : [];
+  return [...new Set(hiddenKeys)];
+}
+async function githubRequest(url, options={}) {
+  const cfg = getGitHubSettings();
+  if (!cfg.token) throw new Error('请先填写 GitHub token');
+  const headers = Object.assign({
+    'Accept': 'application/vnd.github+json',
+    'Authorization': `Bearer ${cfg.token}`
+  }, options.headers || {});
+  const res = await fetch(url, Object.assign({}, options, { headers }));
+  const text = await res.text();
+  if (!res.ok) throw new Error(`GitHub API失败：${res.status} ${text.slice(0, 180)}`);
+  return text ? JSON.parse(text) : {};
+}
+async function initCloudConfig() {
+  try {
+    saveGitHubSettings();
+    const cfg = getGitHubSettings();
+    const payload = {
+      description: 'JD Sign hidden items config',
+      public: false,
+      files: {
+        [cfg.filename || 'jd-sign-hidden.json']: {
+          content: JSON.stringify(buildCloudPayload(), null, 2)
+        }
+      }
+    };
+    const data = await githubRequest('https://api.github.com/gists', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('ghGistId').value = data.id;
+    setGitHubSettings({ token: cfg.token, gistId: data.id, filename: cfg.filename || 'jd-sign-hidden.json' });
+    document.getElementById('syncStatus').textContent = `已创建云配置
+Gist：${data.id}`;
+  } catch (err) {
+    document.getElementById('syncStatus').textContent = err.message;
+    alert(err.message);
+  }
+}
+async function pullCloudHidden() {
+  try {
+    saveGitHubSettings();
+    const cfg = getGitHubSettings();
+    if (!cfg.gistId) throw new Error('请先填写或初始化 Gist ID');
+    const data = await githubRequest(`https://api.github.com/gists/${cfg.gistId}`);
+    const filename = cfg.filename || 'jd-sign-hidden.json';
+    const file = data.files && data.files[filename];
+    if (!file) throw new Error(`Gist 中未找到文件：${filename}`);
+    const hidden = parseCloudPayload(file.content);
+    setHidden(hidden);
+    render();
+    refreshHiddenList();
+    document.getElementById('syncStatus').textContent = `已从云端拉取 ${hidden.length} 条隐藏配置`;
+  } catch (err) {
+    document.getElementById('syncStatus').textContent = err.message;
+    alert(err.message);
+  }
+}
+async function pushCloudHidden() {
+  try {
+    saveGitHubSettings();
+    const cfg = getGitHubSettings();
+    if (!cfg.gistId) throw new Error('请先填写或初始化 Gist ID');
+    const filename = cfg.filename || 'jd-sign-hidden.json';
+    const payload = {
+      files: {
+        [filename]: {
+          content: JSON.stringify(buildCloudPayload(), null, 2)
+        }
+      }
+    };
+    await githubRequest(`https://api.github.com/gists/${cfg.gistId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('syncStatus').textContent = `已同步到云端
+隐藏 ${getHidden().length} 项`;
+  } catch (err) {
+    document.getElementById('syncStatus').textContent = err.message;
+    alert(err.message);
+  }
+}
 let totalItems = [];
 let allDone = getDone();
+let hiddenItems = getHidden();
 function emojiFor(cat, i) {
   const map = 
 {"京豆": ["🫘", "🎁", "⏰", "⚡", "💎", "🎯", "🌱", "🏠", "🏥", "🚗", "🏷️", "🛒"], "红包": ["🧧", "💳", "🎫", "🎲", "🎁", "🏆", "📦", "🛍️"], "零杂": ["🎯", "📱", "📺", "⭐", "✅", "🎁", "🪙", "🧪", "🎪", "🎨"], "金融": ["💰", "🏦", "🧾", "🪙", "🧧", "🌾", "📈", "💳", "🎟️"]}
@@ -331,24 +609,71 @@ function emojiFor(cat, i) {
   const arr = map[cat] || [];
   return arr[i % (arr.length || 1)] || '🔗';
 }
+function hideItem(key) {
+  hiddenItems = [...new Set([...hiddenItems, key])];
+  setHidden(hiddenItems);
+  render();
+  refreshHiddenList();
+}
+function unhideItem(key) {
+  hiddenItems = hiddenItems.filter(k => k !== key);
+  setHidden(hiddenItems);
+  render();
+  refreshHiddenList();
+}
+function clearHidden() {
+  if (!hiddenItems.length) {
+    alert('当前没有隐藏项');
+    return;
+  }
+  if (!confirm(`确定恢复全部 ${hiddenItems.length} 个隐藏项？`)) return;
+  hiddenItems = [];
+  setHidden(hiddenItems);
+  render();
+  refreshHiddenList();
+}
+function refreshHiddenList() {
+  const hiddenSet = new Set(getHidden());
+  hiddenItems = [...hiddenSet];
+  const container = document.getElementById('hiddenList');
+  const rows = allItemsCatalog().filter(it => hiddenSet.has(it.key));
+  if (!rows.length) {
+    container.innerHTML = '<div class="hidden-empty">当前没有隐藏项</div>';
+    return;
+  }
+  container.innerHTML = rows.map(it => `
+    <div class="hidden-item">
+      <div>
+        <div>${it.name}</div>
+        <div class="meta">${it.cat} · ${it.key}</div>
+      </div>
+      <button class="mini-btn" onclick="unhideItem('${it.key}')">恢复</button>
+    </div>
+  `).join('');
+}
 function render() {
+  hiddenItems = getHidden();
+  const hiddenSet = new Set(hiddenItems);
   const app = document.getElementById('app');
   app.innerHTML = '';
   totalItems = [];
   const now = new Date();
-  document.getElementById('date').textContent = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${'日一二三四五六'[now.getDay()]}`;
+  document.getElementById('date').textContent = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${'日一二三四五六'[now.getDay()]} · 已隐藏 ${hiddenItems.length} 项`;
   let doneCount = 0;
   for (const [cat, data] of Object.entries(DATA)) {
+    const visibleItems = data.items
+      .map((item, i) => ({ item, i, key: `${cat}_${i}` }))
+      .filter(row => !hiddenSet.has(row.key));
+    if (!visibleItems.length) continue;
     const section = document.createElement('div');
     section.className = 'category';
     const title = document.createElement('div');
     title.className = 'category-title';
-    title.innerHTML = `<div class="left"><span class="icon">${data.icon}</span>${cat}</div><span class="count">${data.items.length}项</span>`;
+    title.innerHTML = `<div class="left"><span class="icon">${data.icon}</span>${cat}</div><span class="count">${visibleItems.length}项</span>`;
     section.appendChild(title);
     const grid = document.createElement('div');
     grid.className = 'grid';
-    data.items.forEach((item, i) => {
-      const key = `${cat}_${i}`;
+    visibleItems.forEach(({ item, i, key }) => {
       totalItems.push({ key, ...item });
       const a = document.createElement('a');
       a.className = 'item' + (allDone[key] ? ' done' : '');
@@ -357,6 +682,7 @@ function render() {
       if (allDone[key]) doneCount++;
       const emoji = emojiFor(cat, i);
       a.innerHTML = `
+        <button class="hide-btn" type="button" data-hide="${key}">🙈</button>
         <span class="emoji">${emoji}</span>
         <span class="name">${item.name}</span>
         ${item.lock ? '<span class="lock">🔒</span>' : ''}
@@ -368,16 +694,22 @@ function render() {
         setTimeout(() => this.classList.remove('just-done'), 300);
         updateStats();
       });
+      const hideBtn = a.querySelector('.hide-btn');
+      hideBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (confirm(`隐藏「${item.name}」？`)) hideItem(key);
+      });
       grid.appendChild(a);
     });
     section.appendChild(grid);
     app.appendChild(section);
   }
   document.getElementById('totalCount').textContent = totalItems.length;
-  document.getElementById('doneCount').textContent = doneCount;
+  document.getElementById('doneCount').textContent = totalItems.filter(it => allDone[it.key]).length;
 }
 function updateStats() {
-  const done = Object.keys(allDone).length;
+  const done = totalItems.filter(it => allDone[it.key]).length;
   document.getElementById('doneCount').textContent = done;
 }
 function openAll() {
@@ -409,8 +741,9 @@ setInterval(() => {
     render();
   }
 }, 60000);
+applyGitHubSettingsToInputs();
+refreshHiddenList();
 render();
-
 </script>
 </body>
 </html>
