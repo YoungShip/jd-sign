@@ -1,725 +1,416 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>京东签到页</title>
-  <style>
-    :root {
-      --bg: #0b1020;
-      --panel: #131a2a;
-      --panel-2: #1a2338;
-      --text: #eef3ff;
-      --muted: #9fb0d1;
-      --brand: #ff4d4f;
-      --brand-2: #ff7a45;
-      --line: rgba(255,255,255,.08);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(180deg, #0b1020 0%, #11172a 100%);
-      color: var(--text);
-    }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 20px 14px 40px; }
-    .hero {
-      background: radial-gradient(circle at top right, rgba(255,122,69,.25), transparent 35%), linear-gradient(135deg, rgba(255,77,79,.18), rgba(255,122,69,.12));
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 20px 18px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.25);
-    }
-    .hero h1 { margin: 0 0 8px; font-size: 30px; }
-    .hero p { margin: 0; color: var(--muted); line-height: 1.6; }
-    .meta { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
-    .chip { background: rgba(255,255,255,.06); border:1px solid var(--line); color: var(--muted); padding:8px 12px; border-radius:999px; font-size:13px; }
-    .tips { margin-top: 14px; font-size: 14px; color: #ffd7c2; }
-    .grid { display:grid; grid-template-columns: 1fr; gap: 14px; margin-top: 18px; }
-    .card { background: var(--panel); border:1px solid var(--line); border-radius: 18px; overflow: hidden; }
-    .card h2 { margin: 0; padding: 16px 16px 10px; font-size: 20px; display:flex; justify-content:space-between; align-items:baseline; }
-    .card h2 span { font-size: 13px; color: var(--muted); font-weight: normal; }
-    .list { padding: 0 10px 10px; }
-    .item {
-      text-decoration: none; color: var(--text); display:flex; align-items:center; justify-content:space-between;
-      padding: 14px 12px; margin-top: 8px; border-radius: 14px; background: var(--panel-2); border:1px solid rgba(255,255,255,.05);
-    }
-    .item:active, .item:hover { background: #202b45; }
-    .item-main { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-    .item-name { font-size: 16px; font-weight: 600; }
-    .badge { font-size: 12px; color:#ffd8c2; background: rgba(255,122,69,.12); border:1px solid rgba(255,122,69,.18); padding:4px 8px; border-radius:999px; }
-    .arrow { color: var(--muted); font-size: 24px; line-height:1; }
-    .footer { margin-top: 18px; color: var(--muted); font-size: 13px; line-height: 1.7; }
-    @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>京东签到</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f5f5f5;
+  --card: #fff;
+  --red: #e4393c;
+  --red-light: #fef0f0;
+  --text: #333;
+  --text2: #999;
+  --border: #eee;
+  --done-bg: #f0f9f0;
+  --done-text: #52c41a;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding-bottom: 80px;
+  -webkit-tap-highlight-color: transparent;
+}
+.header {
+  background: var(--red);
+  color: #fff;
+  padding: 20px 16px 16px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header h1 { font-size: 18px; font-weight: 600; }
+.header .sub { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.stats span { opacity: 0.9; }
+.stats .num { font-weight: 700; font-size: 16px; }
+.category {
+  margin: 12px 12px 0;
+}
+.category-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.category-title .left { display:flex; align-items:center; gap:6px; }
+.category-title .icon { font-size: 16px; }
+.category-title .count { font-size: 12px; color: #bbb; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+}
+.item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 86px;
+  justify-content: center;
+}
+.item:active { transform: scale(0.95); }
+.item .emoji { font-size: 22px; }
+.item .name { line-height: 1.3; word-break: break-word; }
+.item .lock {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 10px;
+}
+.item.done {
+  background: var(--done-bg);
+  border-color: var(--done-text);
+}
+.item.done .name { color: var(--done-text); }
+.item.done::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 10px;
+  color: var(--done-text);
+  font-weight: 700;
+}
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+  z-index: 100;
+}
+.btn-all {
+  width: 100%;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-all:active { opacity: 0.8; }
+.btn-reset {
+  width: 100%;
+  background: transparent;
+  color: var(--text2);
+  border: none;
+  padding: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.note {
+  margin: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff7e6;
+  color: #ad6800;
+  font-size: 12px;
+  line-height: 1.5;
+  border: 1px solid #ffe7ba;
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+.item.just-done { animation: pop 0.3s ease; }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hero">
-      <h1>京东签到页</h1>
-      <p>从 cake4u.cn 的 sign-links.json 提取整理。点击后会尝试唤起京东 App 深链接，适合在手机端使用。</p>
-      <div class="meta">
-        <span class="chip">共 106 个入口</span>
-        <span class="chip">共 4 个分类</span>
-        <span class="chip">来源：cake4u.cn/sign-links.json</span>
-      </div>
-      <div class="tips">注意：这些链接大多需要手机已安装京东 App；在微信内打开时，部分深链接可能被拦截，建议“复制到浏览器打开”或用你自己的 H5 容器/App WebView 测试。</div>
-    </div>
-    <div class="grid">
-      <section class="card">
-  <h2>京豆 <span>55项</span></h2>
-  <div class="list"><a class="item" href="openapp.jdmobile://virtual?params={%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Hrsxxra%22%7D">
-  <div class="item-main">
-    <span class="item-name">红包打卡</span>
-    <span class="badge">需登录/跳App</span>
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Sg264g5%22%7D">
-  <div class="item-main">
-    <span class="item-name">黑五签到</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YDBWdC0%22%7D">
-  <div class="item-main">
-    <span class="item-name">0点</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://lzdz-isv.isvjcloud.com/lzclient/cjwx/common/openJDApp.html?actlink=https://u.jd.com/DaW8ZPA%22%7D">
-  <div class="item-main">
-    <span class="item-name">秒杀</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://member.jr.jd.com/activity/new-sign-in/home/?channelLv=shouyedou&amp;jrtransparentbar=true&amp;jrcontainer=h5&amp;jrlogin=true">
-  <div class="item-main">
-    <span class="item-name">签到</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://member.jr.jd.com/activity/double/?channelLv=zdddrw%22%7D">
-  <div class="item-main">
-    <span class="item-name">签双</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/DDhNXQ0%22%7D">
-  <div class="item-main">
-    <span class="item-name">签豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://laputa.jd.com/nurse1/pages/index/index%22%7D">
-  <div class="item-main">
-    <span class="item-name">签二</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://laputa.jd.com/onlineDoctorWel/pages/index/index%22%7D">
-  <div class="item-main">
-    <span class="item-name">签三</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://m-car.jd.com/housekeeper/task%22%7D">
-  <div class="item-main">
-    <span class="item-name">签四</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/D65rrHU%22%7D">
-  <div class="item-main">
-    <span class="item-name">签五</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/42HV4J3Q87B2xFQMJk81PCc1mEs3/index.html?inviteCode=ycXdOfjp_Q7MCB9bFZTGT4PiJg&amp;babelChannel=ttt19&amp;jwebprog=0&amp;hybrid_err_view=1&amp;_ts=1758700818023&amp;utm_user=plusmember&amp;gx=RnAoxW9ZajDZwpF68sgmGYo&amp;gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&amp;ad_od=share&amp;utm_source=androidapp&amp;utm_medium=appshare&amp;utm_campaign=t_335139774&amp;utm_term=QRCode_shareid869ab21678152d9a175870083287450742_none_none%22%7D">
-  <div class="item-main">
-    <span class="item-name">农场</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/4SitPQagKibGQK1HX7J83sroHj5x/index.html?stath=20&amp;navh=44&amp;collectionId=224&amp;tttparams=E82SpX7yEeyJhZGRyZXNzSWQiOjEyNTE5MTQyNjcyLCJhcmVhQ29kZSI6MCwiY29ybmVyIjoxLCJkTGF0IjowLCJkTG5nIjowLCJkbCI6MiwiZ0xhdCI6IjIzLjY0OTUxMTU5MDAzNjk2IiwiZ0xuZyI6IjExNi41OTk0OTEyNjMzODExNCIsImdwc19hcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsImxhdCI6MjMuNjQ5NDY1LCJsYnNBcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsImxic0xhdCI6IjIzLjY0OTUxMTU5MDAzNjk2IiwibGJzTG5nIjoiMTE2LjU5OTQ5MTI2MzM4MTE0IiwibG5nIjoxMTYuNTk5ODI0LCJtb2RlbCI6IlYyMjc4QSIsIm9zIjoiMTMiLCJwb3NMYXQiOiIyMy42NDk1MTE1OTAwMzY5NiIsInBvc0xuZyI6IjExNi41OTk0OTEyNjMzODExNCIsInByc3RhdGUiOiIwIiwic2NhbGUiOjMsInVlbXBzIjoiMC0yLTAiLCJ1bl9hcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsIndpZHRoIjoxMDgwfQ9%3D%3D&amp;vid=S5KkcEntCvDSDZX-jw7NK&amp;from=kouling%22%7D">
-  <div class="item-main">
-    <span class="item-name">家居</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3btTwvxiQAaMRpGL5vV1d6vekVEK/index.html?vid=SuPVzQhoZ_F24fQ&amp;amp;from=kouling&amp;amp;babelChannel=ttt1&amp;amp;_ts=1774320531694&amp;amp;utm_user=plusmember&amp;amp;gx=RnAoxW9ZajDZwpF68sgmGYo&amp;amp;gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&amp;amp;ad_od=share&amp;amp;utm_source=androidapp&amp;amp;utm_medium=appshare&amp;amp;utm_campaign=t_335139774&amp;amp;utm_term=Wxfriends_shareid869ab21678152d9a177432053838582126_none_none%22%7D">
-  <div class="item-main">
-    <span class="item-name">家具</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://stock-mix.jd.com/activity/stock-guess/?pageId=11380815178780736&amp;jrcontainer=h5&amp;jrlogin=true%22%7D">
-  <div class="item-main">
-    <span class="item-name">涨跌</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/De5VMnmgZdY2Pyk3/?pageKey=De5VMnmgZdY2Pyk3%22%7D">
-  <div class="item-main">
-    <span class="item-name">签豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YRyxP%22%7D">
-  <div class="item-main">
-    <span class="item-name">领豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2M9pgFZ%22%7D">
-  <div class="item-main">
-    <span class="item-name">领二</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/frK2MyF%22%7D">
-  <div class="item-main">
-    <span class="item-name">领三</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3kJySXAsWt6yaACgabnBPAMwde2K/index.html?stath=20&amp;navh=44&amp;from=kouling&amp;channelType=0&amp;babelChannel=ttt125&amp;activityChannel=jdapp&amp;femobile=femobile&amp;inviterId=6i2QV130c22H_0qrVt7BLg%22%7D">
-  <div class="item-main">
-    <span class="item-name">领六</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3VeB2YCUT4XLVJKWM3W5wXMA7JXG/index.html?jwebprog=0&amp;hybrid_err_view=1&amp;wegameInviterId=6i2QV130c22H_0qrVt7BLg&amp;channelType=1&amp;femobile=femobile&amp;wegameType=5&amp;babelChannel=ttt40%22%7D">
-  <div class="item-main">
-    <span class="item-name">飞行</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2Eu-ohFE%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2EvktL-K%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子2</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2KLZ-jMU%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子3</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2LiT7-BJ%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子4</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2-LiTbQo%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子5</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2LiTfso%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子6</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2M2QLG-M%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子7</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2LiU-CNK%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子8</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2LiV9X6%22%7D">
-  <div class="item-main">
-    <span class="item-name">圈子9</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/J6RwKTo%22%7D">
-  <div class="item-main">
-    <span class="item-name">七鲜</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nDYRz77%22%7D">
-  <div class="item-main">
-    <span class="item-name">新奇</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2P8-GV42%22%7D">
-  <div class="item-main">
-    <span class="item-name">左中</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2MH-zO9t%22%7D">
-  <div class="item-main">
-    <span class="item-name">元宵抽</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2P8HNwV%22%7D">
-  <div class="item-main">
-    <span class="item-name">家电</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://prodev.m.jd.com/mall/active/jVKT3TKjwfjR1kFLcRgjgAEerBc/index.html?cu=true&amp;utm_source=lianmeng__10__kong&amp;utm_medium=tuiguang&amp;utm_campaign=t_1000124592_&amp;utm_term=45c512a388d74f58afd401fd65fe0f80%22%7D">
-  <div class="item-main">
-    <span class="item-name">下方</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/Aaf8339%22%7D">
-  <div class="item-main">
-    <span class="item-name">左上角</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/jO2DMWr%22%7D">
-  <div class="item-main">
-    <span class="item-name">点推荐-特价</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/jD2Slt9%22%7D">
-  <div class="item-main">
-    <span class="item-name">好礼</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/ErI2LEc%22%7D">
-  <div class="item-main">
-    <span class="item-name">校园</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/EGz5QFB%22%7D">
-  <div class="item-main">
-    <span class="item-name">低价</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dr5TUoI%22%7D">
-  <div class="item-main">
-    <span class="item-name">19点</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YDVLW0t%22%7D">
-  <div class="item-main">
-    <span class="item-name">中间</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/jOPwwbP%22%7D">
-  <div class="item-main">
-    <span class="item-name">种豆</span>
-    <span class="badge">需登录/跳App</span>
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jchd.jd.com/index.html%22%7D">
-  <div class="item-main">
-    <span class="item-name">小哥</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jingcai-h5.jd.com/%23/%22%7D">
-  <div class="item-main">
-    <span class="item-name">第三个</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/NOVMMAj%23/%22%7D">
-  <div class="item-main">
-    <span class="item-name">服务</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/pOPVcoh%22%7D">
-  <div class="item-main">
-    <span class="item-name">猜价</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3iXU1kvcZaGz6Xf9L3cJ9aCS6ShN/index.html?has_native=0&amp;jwebprog=0&amp;hybrid_err_view=1&amp;transparent=1&amp;ad_od=1&amp;hongbao=1&amp;babelChannel=ttt204&amp;linkArea=baoyou&amp;mTabId=2LcucMHYX7aXz92Qh7JBHBo6DACH&amp;linkTabId=fc7c33af66d366239a65135a25146694&amp;linkTopTab=best%22%7D">
-  <div class="item-main">
-    <span class="item-name">好运</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://iu.jr.jd.com/insurance/channel/interest?showTab=1%22%7D">
-  <div class="item-main">
-    <span class="item-name">天天</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/c1yDYT4%22%7D">
-  <div class="item-main">
-    <span class="item-name">浏览</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/fgFzho4%22%7D">
-  <div class="item-main">
-    <span class="item-name">女性</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Hg8870D%22%7D">
-  <div class="item-main">
-    <span class="item-name">月光宝盒</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/HaD90Kz%22%7D">
-  <div class="item-main">
-    <span class="item-name">养龙虾</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/zwQevn030roPNpO0/?pageKey=zwQevn030roPNpO0&amp;sid=%23/%22%7D">
-  <div class="item-main">
-    <span class="item-name">签到joy</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a></div>
-</section><section class="card">
-  <h2>红包 <span>9项</span></h2>
-  <div class="list"><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://ipay.jd.com/m/balanceact/main?source=wallet%22%7D">
-  <div class="item-main">
-    <span class="item-name">余额</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRnsB%22%7D">
-  <div class="item-main">
-    <span class="item-name">奖</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fu.jd.com%2FBGYV8UP%22%7D">
-  <div class="item-main">
-    <span class="item-name">超市卡</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P67htti%22%7D">
-  <div class="item-main">
-    <span class="item-name">微签</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P17nStN%22%7D">
-  <div class="item-main">
-    <span class="item-name">拼手气</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Pr7fQxc%22%7D">
-  <div class="item-main">
-    <span class="item-name">分享</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YR6sX%22%7D">
-  <div class="item-main">
-    <span class="item-name">挖宝</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/cgeGieY%22%7D">
-  <div class="item-main">
-    <span class="item-name">新品</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/B2Y13x641hwWfpsoRenCzfbz4jR/index.html?inviterId=6i2QV130c22H_0qrVt7BLg&amp;channelType=1&amp;femobile=femobile&amp;babelChannel=ttt125&amp;_ts=1758790169155&amp;utm_user=plusmember&amp;gx=RnAoxW9ZajDZwpF68sgmGYo&amp;gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&amp;ad_od=share&amp;utm_source=androidapp&amp;utm_medium=appshare&amp;utm_campaign=t_335139774&amp;utm_term=QRCode_shareid869ab21678152d9a175879016927629986_none_none%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽奖</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a></div>
-</section><section class="card">
-  <h2>零杂 <span>21项</span></h2>
-  <div class="list"><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/LJ8G/?pageKey=LJ8G&amp;fundUtmSource=1297&amp;fundUtmParam=GoldenBeans24_scwojing_icon%22%7D">
-  <div class="item-main">
-    <span class="item-name">金豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://mypoint-new.jd.com/predeem/%23/rechange%22%7D">
-  <div class="item-main">
-    <span class="item-name">话费</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/f1Jq0xh%22%7D">
-  <div class="item-main">
-    <span class="item-name">看视频</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/DO5N2hD%22%7D">
-  <div class="item-main">
-    <span class="item-name">按钮</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dr54Ixn%22%7D">
-  <div class="item-main">
-    <span class="item-name">超市</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dg5fwcH%22%7D">
-  <div class="item-main">
-    <span class="item-name">数码</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jgc.jd.com/game/zone/pages/gameZone/index?source=5%22%7D">
-  <div class="item-main">
-    <span class="item-name">探索</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nOYRGDL%22%7D">
-  <div class="item-main">
-    <span class="item-name">盲盒</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRMzI%22%7D">
-  <div class="item-main">
-    <span class="item-name">PLUS</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://btfront.jd.com/release/credit_envelop/index/?channelName=204&amp;position=task&amp;jrcontainer=h5&amp;jrlogin=true&amp;jrcloseweb=false&amp;utm_term=copyurl%22%7D">
-  <div class="item-main">
-    <span class="item-name">白签到</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nrYjqW6%22%7D">
-  <div class="item-main">
-    <span class="item-name">打卡免单</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3Hvf2k1LSckoPsHhMmwY3RwrcrgL/index.html?vid=SuPVzQhoZ_F24fQ&amp;shareId=SuPVzQhoZ_F24fQ&amp;type=3&amp;babelChannel=ttt1&amp;_ts=1763387529844&amp;utm_user=plusmember&amp;gx=RnAoxW9ZajDZwpF68sgmGYo&amp;gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&amp;ad_od=share&amp;utm_source=androidapp&amp;utm_medium=appshare&amp;utm_campaign=t_335139774&amp;utm_term=CopyURL_shareid869ab21678152d9a176338753215276846_zuofanyouxi_none%22%7D">
-  <div class="item-main">
-    <span class="item-name">1分抢好物</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P1HTaTb%22%7D">
-  <div class="item-main">
-    <span class="item-name">试用</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/NrwYdrw%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽奖-狗粮</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/vOwlBJ6%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽奖-大药房</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n1YRSjI%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽奖-普通抽</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Da5NGof%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽奖-图书</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/vD6ybDq%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽奖-家装</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YRvpr%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽签</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/ngYR0eM%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽签2</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nDYR3JT%22%7D">
-  <div class="item-main">
-    <span class="item-name">抽签3</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a></div>
-</section><section class="card">
-  <h2>金融 <span>21项</span></h2>
-  <div class="list"><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/jdjr/active/3qAbfE8FMHj6bKbAp5fJry1X7sz5/index.html?has_native=0&amp;channel=BXJ-XY&amp;subChannel=BXJ-JRAPPSS&amp;fireye_union=800004168&amp;fireye_channel=71740520&amp;jrcontainer=h5&amp;jrlogin=false&amp;utm_term=copyurl%22%7D">
-  <div class="item-main">
-    <span class="item-name">出报销</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/22xbyy97nGuywa9JbrnHBe1Yrdxu/index.html&amp;channel=baitiao?jrcontainer=h5&amp;jrlogin=true&amp;jrcloseweb=false&amp;sid=%22%7D">
-  <div class="item-main">
-    <span class="item-name">打卡-报销</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://eco.jr.jd.com/app-new/?jrcontainer=h5&amp;jrlogin=false">
-  <div class="item-main">
-    <span class="item-name">最下方</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://content.jr.jd.com/shareProject/shortVideo/transverse/index.html?contentId=824242245632133120">
-  <div class="item-main">
-    <span class="item-name">现视频</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://member.jr.jd.com/member/coinQuest/coin/?mission=1">
-  <div class="item-main">
-    <span class="item-name">豆赚京豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://ipay.jd.com/m/bankicon/?source=QBYE&amp;utm term=copyurl">
-  <div class="item-main">
-    <span class="item-name">豆银行卡</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://jccapt.jr.jd.com/home?channelCode=jd-sc-pdyzgdrw&amp;sid=&amp;showPortalTab=1&amp;utm_term=copyurl">
-  <div class="item-main">
-    <span class="item-name">豆联名卡</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://show.jd.com/m/RkO0AE9rKrYy6ZDd/?pageKey=RkO0AE9rKrYy6ZDd">
-  <div class="item-main">
-    <span class="item-name">豆赚豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://show.jd.com/m/0LXdKEpV3ZopyQP5/?pageKey=0LXdKEpV3ZopyQP5">
-  <div class="item-main">
-    <span class="item-name">豆苏超</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://member.jr.jd.com/activity/invest-earn-more/index/">
-  <div class="item-main">
-    <span class="item-name">豆投豆</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://fc.jr.jd.com/channel/financing-channel/index/?channel=wojingicon&amp;fundUtmSource=1297&amp;fundUtmParam=fundDetail">
-  <div class="item-main">
-    <span class="item-name">豆保险</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://member.jr.jd.com/member/mermberRights/rightsCenter?hiddenTab=1&amp;channel=380&amp;romaFileName=page_rights_entry">
-  <div class="item-main">
-    <span class="item-name">豆省钱</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://fu.jr.jd.com/fq-free-channel/redenvelope/index.html?jrcontainer=h5&amp;jrlogin=true">
-  <div class="item-main">
-    <span class="item-name">红领红包</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://show.jd.com/m/dPM1/?pageKey=dPM1">
-  <div class="item-main">
-    <span class="item-name">理财日</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/rich-farm/index.html?channel=cfzy&amp;jrtransparentbar=true">
-  <div class="item-main">
-    <span class="item-name">游种菜</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://content.jr.jd.com/article/index.html?pageId=722101557">
-  <div class="item-main">
-    <span class="item-name">游捕鱼</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channelLV=table">
-  <div class="item-main">
-    <span class="item-name">游养猪</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="jdmobile://share?jumpType=8&amp;jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/cloudgoose/index/?channelLV=table">
-  <div class="item-main">
-    <span class="item-name">游养鹅</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://joypark.jd.com/?activityId=99DZNpaCTAv8f4TuKXr0Ew&amp;wgCommonHeadLinkId=_TRRPkXRNfJDiCfvwwRNuQ&amp;activityChannel=myjdicon%22%7D">
-  <div class="item-main">
-    <span class="item-name">游旺旺</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YOqz1hX%22%7D">
-  <div class="item-main">
-    <span class="item-name">游PLUS</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a><a class="item" href="openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jr.jd.com/uc-fe-wxgrowing/jr_game/dd-restaurant/index.html?channel=desktopIcon&amp;jrcontainer=h5&amp;jrlogin=true%22%7D">
-  <div class="item-main">
-    <span class="item-name">游餐厅</span>
-    
-  </div>
-  <span class="arrow">›</span>
-</a></div>
-</section>
-    </div>
-    <div class="footer">
-      <div>数据文件：jd_sign_links.json</div>
-      <div>如果你后面要，我还能继续给你加：搜索框、已点标记、本地收藏、分组折叠、自动同步源数据。</div>
-    </div>
-  </div>
+
+<div class="header">
+  <h1>🐶 京东每日签到</h1>
+  <div class="sub" id="date"></div>
+  <div class="stats">
+    <span>已完成 <span class="num" id="doneCount">0</span></span>
+    <span>/</span>
+    <span>共 <span class="num" id="totalCount">0</span></span>
+  </div>
+</div>
+
+<div class="note">已恢复旧版样式，同时接入这次新抓到的数据：共 106 个入口，4 个分类。微信里部分 deep link 可能拦截，浏览器里打开更稳。</div>
+
+<div id="app"></div>
+
+<div class="bottom-bar">
+  <button class="btn-all" onclick="openAll()">🚀 一键全部签到</button>
+  <button class="btn-reset" onclick="resetAll()">重置今日记录</button>
+</div>
+
+<script>
+const DATA = {
+  "京豆": {
+    icon: "🫘",
+    items: [
+      {name:"红包打卡",url:"openapp.jdmobile://virtual?params={%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Hrsxxra%22%7D",lock:true},
+      {name:"黑五签到",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Sg264g5%22%7D"},
+      {name:"0点",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YDBWdC0%22%7D"},
+      {name:"秒杀",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://lzdz-isv.isvjcloud.com/lzclient/cjwx/common/openJDApp.html?actlink=https://u.jd.com/DaW8ZPA%22%7D"},
+      {name:"签到",url:"jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/activity/new-sign-in/home/?channelLv=shouyedou&jrtransparentbar=true&jrcontainer=h5&jrlogin=true"},
+      {name:"签双",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://member.jr.jd.com/activity/double/?channelLv=zdddrw%22%7D"},
+      {name:"签豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/DDhNXQ0%22%7D"},
+      {name:"签二",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://laputa.jd.com/nurse1/pages/index/index%22%7D"},
+      {name:"签三",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://laputa.jd.com/onlineDoctorWel/pages/index/index%22%7D"},
+      {name:"签四",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://m-car.jd.com/housekeeper/task%22%7D"},
+      {name:"签五",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/D65rrHU%22%7D"},
+      {name:"农场",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/42HV4J3Q87B2xFQMJk81PCc1mEs3/index.html?inviteCode=ycXdOfjp_Q7MCB9bFZTGT4PiJg&babelChannel=ttt19&jwebprog=0&hybrid_err_view=1&_ts=1758700818023&utm_user=plusmember&gx=RnAoxW9ZajDZwpF68sgmGYo&gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=QRCode_shareid869ab21678152d9a175870083287450742_none_none%22%7D"},
+      {name:"家居",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/4SitPQagKibGQK1HX7J83sroHj5x/index.html?stath=20&navh=44&collectionId=224&tttparams=E82SpX7yEeyJhZGRyZXNzSWQiOjEyNTE5MTQyNjcyLCJhcmVhQ29kZSI6MCwiY29ybmVyIjoxLCJkTGF0IjowLCJkTG5nIjowLCJkbCI6MiwiZ0xhdCI6IjIzLjY0OTUxMTU5MDAzNjk2IiwiZ0xuZyI6IjExNi41OTk0OTEyNjMzODExNCIsImdwc19hcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsImxhdCI6MjMuNjQ5NDY1LCJsYnNBcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsImxic0xhdCI6IjIzLjY0OTUxMTU5MDAzNjk2IiwibGJzTG5nIjoiMTE2LjU5OTQ5MTI2MzM4MTE0IiwibG5nIjoxMTYuNTk5ODI0LCJtb2RlbCI6IlYyMjc4QSIsIm9zIjoiMTMiLCJwb3NMYXQiOiIyMy42NDk1MTE1OTAwMzY5NiIsInBvc0xuZyI6IjExNi41OTk0OTEyNjMzODExNCIsInByc3RhdGUiOiIwIiwic2NhbGUiOjMsInVlbXBzIjoiMC0yLTAiLCJ1bl9hcmVhIjoiMTlfMTcwNV8xOTk5Ml82MTE2OSIsIndpZHRoIjoxMDgwfQ9%3D%3D&vid=S5KkcEntCvDSDZX-jw7NK&from=kouling%22%7D"},
+      {name:"家具",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3btTwvxiQAaMRpGL5vV1d6vekVEK/index.html?vid=SuPVzQhoZ_F24fQ&amp;from=kouling&amp;babelChannel=ttt1&amp;_ts=1774320531694&amp;utm_user=plusmember&amp;gx=RnAoxW9ZajDZwpF68sgmGYo&amp;gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&amp;ad_od=share&amp;utm_source=androidapp&amp;utm_medium=appshare&amp;utm_campaign=t_335139774&amp;utm_term=Wxfriends_shareid869ab21678152d9a177432053838582126_none_none%22%7D"},
+      {name:"涨跌",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://stock-mix.jd.com/activity/stock-guess/?pageId=11380815178780736&jrcontainer=h5&jrlogin=true%22%7D"},
+      {name:"签豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/De5VMnmgZdY2Pyk3/?pageKey=De5VMnmgZdY2Pyk3%22%7D"},
+      {name:"领豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YRyxP%22%7D"},
+      {name:"领二",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2M9pgFZ%22%7D"},
+      {name:"领三",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/frK2MyF%22%7D"},
+      {name:"领六",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3kJySXAsWt6yaACgabnBPAMwde2K/index.html?stath=20&navh=44&from=kouling&channelType=0&babelChannel=ttt125&activityChannel=jdapp&femobile=femobile&inviterId=6i2QV130c22H_0qrVt7BLg%22%7D"},
+      {name:"飞行",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3VeB2YCUT4XLVJKWM3W5wXMA7JXG/index.html?jwebprog=0&hybrid_err_view=1&wegameInviterId=6i2QV130c22H_0qrVt7BLg&channelType=1&femobile=femobile&wegameType=5&babelChannel=ttt40%22%7D"},
+      {name:"圈子",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2Eu-ohFE%22%7D"},
+      {name:"圈子2",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2EvktL-K%22%7D"},
+      {name:"圈子3",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2KLZ-jMU%22%7D"},
+      {name:"圈子4",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2LiT7-BJ%22%7D"},
+      {name:"圈子5",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2-LiTbQo%22%7D"},
+      {name:"圈子6",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2LiTfso%22%7D"},
+      {name:"圈子7",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2M2QLG-M%22%7D"},
+      {name:"圈子8",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2LiU-CNK%22%7D"},
+      {name:"圈子9",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2LiV9X6%22%7D"},
+      {name:"七鲜",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/J6RwKTo%22%7D"},
+      {name:"新奇",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nDYRz77%22%7D"},
+      {name:"左中",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2P8-GV42%22%7D"},
+      {name:"元宵抽",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/2MH-zO9t%22%7D"},
+      {name:"家电",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://3.cn/-2P8HNwV%22%7D"},
+      {name:"下方",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://prodev.m.jd.com/mall/active/jVKT3TKjwfjR1kFLcRgjgAEerBc/index.html?cu=true&utm_source=lianmeng__10__kong&utm_medium=tuiguang&utm_campaign=t_1000124592_&utm_term=45c512a388d74f58afd401fd65fe0f80%22%7D"},
+      {name:"左上角",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/Aaf8339%22%7D"},
+      {name:"点推荐-特价",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/jO2DMWr%22%7D"},
+      {name:"好礼",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/jD2Slt9%22%7D"},
+      {name:"校园",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/ErI2LEc%22%7D"},
+      {name:"低价",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https://u.jd.com/EGz5QFB%22%7D"},
+      {name:"19点",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dr5TUoI%22%7D"},
+      {name:"中间",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YDVLW0t%22%7D"},
+      {name:"种豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/jOPwwbP%22%7D",lock:true},
+      {name:"小哥",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jchd.jd.com/index.html%22%7D"},
+      {name:"第三个",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jingcai-h5.jd.com/%23/%22%7D"},
+      {name:"服务",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/NOVMMAj%23/%22%7D"},
+      {name:"猜价",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/pOPVcoh%22%7D"},
+      {name:"好运",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3iXU1kvcZaGz6Xf9L3cJ9aCS6ShN/index.html?has_native=0&jwebprog=0&hybrid_err_view=1&transparent=1&ad_od=1&hongbao=1&babelChannel=ttt204&linkArea=baoyou&mTabId=2LcucMHYX7aXz92Qh7JBHBo6DACH&linkTabId=fc7c33af66d366239a65135a25146694&linkTopTab=best%22%7D"},
+      {name:"天天",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://iu.jr.jd.com/insurance/channel/interest?showTab=1%22%7D"},
+      {name:"浏览",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/c1yDYT4%22%7D"},
+      {name:"女性",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/fgFzho4%22%7D"},
+      {name:"月光宝盒",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Hg8870D%22%7D"},
+      {name:"养龙虾",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/HaD90Kz%22%7D"},
+      {name:"签到joy",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/zwQevn030roPNpO0/?pageKey=zwQevn030roPNpO0&sid=%23/%22%7D"},
+    ]
+  },
+  "红包": {
+    icon: "🧧",
+    items: [
+      {name:"余额",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://ipay.jd.com/m/balanceact/main?source=wallet%22%7D"},
+      {name:"奖",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRnsB%22%7D"},
+      {name:"超市卡",url:"openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fu.jd.com%2FBGYV8UP%22%7D"},
+      {name:"微签",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P67htti%22%7D"},
+      {name:"拼手气",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P17nStN%22%7D"},
+      {name:"分享",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Pr7fQxc%22%7D"},
+      {name:"挖宝",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YR6sX%22%7D"},
+      {name:"新品",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/cgeGieY%22%7D"},
+      {name:"抽奖",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/B2Y13x641hwWfpsoRenCzfbz4jR/index.html?inviterId=6i2QV130c22H_0qrVt7BLg&channelType=1&femobile=femobile&babelChannel=ttt125&_ts=1758790169155&utm_user=plusmember&gx=RnAoxW9ZajDZwpF68sgmGYo&gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=QRCode_shareid869ab21678152d9a175879016927629986_none_none%22%7D"},
+    ]
+  },
+  "零杂": {
+    icon: "🎯",
+    items: [
+      {name:"金豆",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://show.jd.com/m/LJ8G/?pageKey=LJ8G&fundUtmSource=1297&fundUtmParam=GoldenBeans24_scwojing_icon%22%7D"},
+      {name:"话费",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://mypoint-new.jd.com/predeem/%23/rechange%22%7D"},
+      {name:"看视频",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/f1Jq0xh%22%7D"},
+      {name:"按钮",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/DO5N2hD%22%7D"},
+      {name:"超市",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dr54Ixn%22%7D"},
+      {name:"数码",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Dg5fwcH%22%7D"},
+      {name:"探索",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://jgc.jd.com/game/zone/pages/gameZone/index?source=5%22%7D"},
+      {name:"盲盒",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nOYRGDL%22%7D"},
+      {name:"PLUS",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/naYRMzI%22%7D"},
+      {name:"白签到",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://btfront.jd.com/release/credit_envelop/index/?channelName=204&position=task&jrcontainer=h5&jrlogin=true&jrcloseweb=false&utm_term=copyurl%22%7D"},
+      {name:"打卡免单",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nrYjqW6%22%7D"},
+      {name:"1分抢好物",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/3Hvf2k1LSckoPsHhMmwY3RwrcrgL/index.html?vid=SuPVzQhoZ_F24fQ&shareId=SuPVzQhoZ_F24fQ&type=3&babelChannel=ttt1&_ts=1763387529844&utm_user=plusmember&gx=RnAoxW9ZajDZwpF68sgmGYo&gxd=RnAoy2FQOWbbyp4Sp4VyX_DDM_FfzRI&ad_od=share&utm_source=androidapp&utm_medium=appshare&utm_campaign=t_335139774&utm_term=CopyURL_shareid869ab21678152d9a176338753215276846_zuofanyouxi_none%22%7D"},
+      {name:"试用",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/P1HTaTb%22%7D"},
+      {name:"抽奖-狗粮",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/NrwYdrw%22%7D"},
+      {name:"抽奖-大药房",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/vOwlBJ6%22%7D"},
+      {name:"抽奖-普通抽",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n1YRSjI%22%7D"},
+      {name:"抽奖-图书",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/Da5NGof%22%7D"},
+      {name:"抽奖-家装",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/vD6ybDq%22%7D"},
+      {name:"抽签",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/n6YRvpr%22%7D"},
+      {name:"抽签2",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/ngYR0eM%22%7D"},
+      {name:"抽签3",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/nDYR3JT%22%7D"},
+    ]
+  },
+  "金融": {
+    icon: "💰",
+    items: [
+      {name:"出报销",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/jdjr/active/3qAbfE8FMHj6bKbAp5fJry1X7sz5/index.html?has_native=0&channel=BXJ-XY&subChannel=BXJ-JRAPPSS&fireye_union=800004168&fireye_channel=71740520&jrcontainer=h5&jrlogin=false&utm_term=copyurl%22%7D"},
+      {name:"打卡-报销",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://pro.m.jd.com/mall/active/22xbyy97nGuywa9JbrnHBe1Yrdxu/index.html&channel=baitiao?jrcontainer=h5&jrlogin=true&jrcloseweb=false&sid=%22%7D"},
+      {name:"最下方",url:"jdmobile://share?jumpType=8&jumpUrl=https://eco.jr.jd.com/app-new/?jrcontainer=h5&jrlogin=false"},
+      {name:"现视频",url:"jdmobile://share?jumpType=8&jumpUrl=https://content.jr.jd.com/shareProject/shortVideo/transverse/index.html?contentId=824242245632133120"},
+      {name:"豆赚京豆",url:"jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/member/coinQuest/coin/?mission=1"},
+      {name:"豆银行卡",url:"jdmobile://share?jumpType=8&jumpUrl=https://ipay.jd.com/m/bankicon/?source=QBYE&utm term=copyurl"},
+      {name:"豆联名卡",url:"jdmobile://share?jumpType=8&jumpUrl=https://jccapt.jr.jd.com/home?channelCode=jd-sc-pdyzgdrw&sid=&showPortalTab=1&utm_term=copyurl"},
+      {name:"豆赚豆",url:"jdmobile://share?jumpType=8&jumpUrl=https://show.jd.com/m/RkO0AE9rKrYy6ZDd/?pageKey=RkO0AE9rKrYy6ZDd"},
+      {name:"豆苏超",url:"jdmobile://share?jumpType=8&jumpUrl=https://show.jd.com/m/0LXdKEpV3ZopyQP5/?pageKey=0LXdKEpV3ZopyQP5"},
+      {name:"豆投豆",url:"jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/activity/invest-earn-more/index/"},
+      {name:"豆保险",url:"jdmobile://share?jumpType=8&jumpUrl=https://fc.jr.jd.com/channel/financing-channel/index/?channel=wojingicon&fundUtmSource=1297&fundUtmParam=fundDetail"},
+      {name:"豆省钱",url:"jdmobile://share?jumpType=8&jumpUrl=https://member.jr.jd.com/member/mermberRights/rightsCenter?hiddenTab=1&channel=380&romaFileName=page_rights_entry"},
+      {name:"红领红包",url:"jdmobile://share?jumpType=8&jumpUrl=https://fu.jr.jd.com/fq-free-channel/redenvelope/index.html?jrcontainer=h5&jrlogin=true"},
+      {name:"理财日",url:"jdmobile://share?jumpType=8&jumpUrl=https://show.jd.com/m/dPM1/?pageKey=dPM1"},
+      {name:"游种菜",url:"jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/rich-farm/index.html?channel=cfzy&jrtransparentbar=true"},
+      {name:"游捕鱼",url:"jdmobile://share?jumpType=8&jumpUrl=https://content.jr.jd.com/article/index.html?pageId=722101557"},
+      {name:"游养猪",url:"jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/cloudpig/index/?channelLV=table"},
+      {name:"游养鹅",url:"jdmobile://share?jumpType=8&jumpUrl=https://u.jr.jd.com/uc-fe-wxgrowing/cloudgoose/index/?channelLV=table"},
+      {name:"游旺旺",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://joypark.jd.com/?activityId=99DZNpaCTAv8f4TuKXr0Ew&wgCommonHeadLinkId=_TRRPkXRNfJDiCfvwwRNuQ&activityChannel=myjdicon%22%7D"},
+      {name:"游PLUS",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jd.com/YOqz1hX%22%7D"},
+      {name:"游餐厅",url:"openapp.jdmobile://virtual?params=%7B%22category%22:%22jump%22,%22des%22:%22m%22,%22url%22:%22https://u.jr.jd.com/uc-fe-wxgrowing/jr_game/dd-restaurant/index.html?channel=desktopIcon&jrcontainer=h5&jrlogin=true%22%7D"},
+    ]
+  },
+};
+
+function todayKey() {
+  const d = new Date();
+  return `jd_sign_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
+}
+function getDone() {
+  try { return JSON.parse(localStorage.getItem(todayKey()) || '{}'); } catch { return {}; }
+}
+function setDone(done) {
+  localStorage.setItem(todayKey(), JSON.stringify(done));
+}
+let totalItems = [];
+let allDone = getDone();
+function emojiFor(cat, i) {
+  const map = 
+{"京豆": ["🫘", "🎁", "⏰", "⚡", "💎", "🎯", "🌱", "🏠", "🏥", "🚗", "🏷️", "🛒"], "红包": ["🧧", "💳", "🎫", "🎲", "🎁", "🏆", "📦", "🛍️"], "零杂": ["🎯", "📱", "📺", "⭐", "✅", "🎁", "🪙", "🧪", "🎪", "🎨"], "金融": ["💰", "🏦", "🧾", "🪙", "🧧", "🌾", "📈", "💳", "🎟️"]}
+;
+  const arr = map[cat] || [];
+  return arr[i % (arr.length || 1)] || '🔗';
+}
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  totalItems = [];
+  const now = new Date();
+  document.getElementById('date').textContent = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 ${'日一二三四五六'[now.getDay()]}`;
+  let doneCount = 0;
+  for (const [cat, data] of Object.entries(DATA)) {
+    const section = document.createElement('div');
+    section.className = 'category';
+    const title = document.createElement('div');
+    title.className = 'category-title';
+    title.innerHTML = `<div class="left"><span class="icon">${data.icon}</span>${cat}</div><span class="count">${data.items.length}项</span>`;
+    section.appendChild(title);
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    data.items.forEach((item, i) => {
+      const key = `${cat}_${i}`;
+      totalItems.push({ key, ...item });
+      const a = document.createElement('a');
+      a.className = 'item' + (allDone[key] ? ' done' : '');
+      a.href = item.url;
+      a.dataset.key = key;
+      if (allDone[key]) doneCount++;
+      const emoji = emojiFor(cat, i);
+      a.innerHTML = `
+        <span class="emoji">${emoji}</span>
+        <span class="name">${item.name}</span>
+        ${item.lock ? '<span class="lock">🔒</span>' : ''}
+      `;
+      a.addEventListener('click', function() {
+        allDone[key] = true;
+        setDone(allDone);
+        this.classList.add('done', 'just-done');
+        setTimeout(() => this.classList.remove('just-done'), 300);
+        updateStats();
+      });
+      grid.appendChild(a);
+    });
+    section.appendChild(grid);
+    app.appendChild(section);
+  }
+  document.getElementById('totalCount').textContent = totalItems.length;
+  document.getElementById('doneCount').textContent = doneCount;
+}
+function updateStats() {
+  const done = Object.keys(allDone).length;
+  document.getElementById('doneCount').textContent = done;
+}
+function openAll() {
+  const remaining = totalItems.filter(it => !allDone[it.key]);
+  if (remaining.length === 0) {
+    alert('今天全签完啦！🎉');
+    return;
+  }
+  if (!confirm(`还有 ${remaining.length} 个未签到，要全部打开吗？`)) return;
+  remaining.forEach((item, i) => {
+    setTimeout(() => {
+      window.location.href = item.url;
+      allDone[item.key] = true;
+      setDone(allDone);
+    }, i * 800);
+  });
+  setTimeout(() => render(), remaining.length * 800 + 500);
+}
+function resetAll() {
+  if (!confirm('确定要重置今日签到记录？')) return;
+  localStorage.removeItem(todayKey());
+  allDone = {};
+  render();
+}
+setInterval(() => {
+  const curKey = todayKey();
+  if (!localStorage.getItem(curKey) && Object.keys(allDone).length) {
+    allDone = {};
+    render();
+  }
+}, 60000);
+render();
+
+</script>
 </body>
 </html>
