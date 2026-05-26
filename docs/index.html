@@ -833,15 +833,7 @@ document.addEventListener('visibilitychange', () => {
   setTimeout(() => {
     const latest = getBatchState();
     if (!latest || !latest.currentKey) return;
-    if (confirm(`已从京东返回，继续打开下一个？
-将把「${latest.currentKey}」视为已处理。`)) {
-      continueBatchSign({ fromReturn: true });
-    } else {
-      latest.resumePrompted = false;
-      setBatchState(latest);
-      updateBatchButton();
-      render();
-    }
+    continueBatchSign({ fromReturn: true });
   }, 300);
 });
 setInterval(() => {
