@@ -294,7 +294,7 @@ body {
 <div id="app"></div>
 
 <div class="bottom-bar">
-  <button class="btn-all" onclick="openAll()">🚀 一键全部签到</button>
+  <button class="btn-all" id="batchSignBtn" onclick="openAll()">🚀 一键全部签到</button>
   <button class="btn-reset" onclick="resetAll()">重置今日记录</button>
 </div>
 
@@ -434,6 +434,7 @@ function todayKey() {
 }
 const HIDDEN_KEY = 'jd_sign_hidden_v1';
 const GH_SETTINGS_KEY = 'jd_sign_github_sync_v1';
+const BATCH_KEY = 'jd_sign_batch_v1';
 function getDone() {
   try { return JSON.parse(localStorage.getItem(todayKey()) || '{}'); } catch { return {}; }
 }
@@ -712,38 +713,149 @@ function updateStats() {
   const done = totalItems.filter(it => allDone[it.key]).length;
   document.getElementById('doneCount').textContent = done;
 }
+function getBatchState() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(BATCH_KEY) || 'null');
+    if (!raw || typeof raw !== 'object') return null;
+    return {
+      queueKeys: Array.isArray(raw.queueKeys) ? raw.queueKeys : [],
+      currentKey: raw.currentKey || null,
+      lastLaunchedAt: Number(raw.lastLaunchedAt || 0),
+      resumePrompted: !!raw.resumePrompted
+    };
+  } catch {
+    return null;
+  }
+}
+function setBatchState(state) {
+  if (!state) {
+    localStorage.removeItem(BATCH_KEY);
+    return;
+  }
+  localStorage.setItem(BATCH_KEY, JSON.stringify({
+    queueKeys: Array.isArray(state.queueKeys) ? state.queueKeys : [],
+    currentKey: state.currentKey || null,
+    lastLaunchedAt: Number(state.lastLaunchedAt || 0),
+    resumePrompted: !!state.resumePrompted
+  }));
+}
+function clearBatchState() {
+  localStorage.removeItem(BATCH_KEY);
+}
+function getVisibleRemainingItems() {
+  return totalItems.filter(it => !allDone[it.key]);
+}
+function updateBatchButton() {
+  const btn = document.getElementById('batchSignBtn');
+  if (!btn) return;
+  const state = getBatchState();
+  if (state && (state.currentKey || state.queueKeys.length)) {
+    const waiting = state.queueKeys.length + (state.currentKey ? 1 : 0);
+    btn.textContent = `▶️ 继续连续签到（剩余 ${waiting} 个）`;
+  } else {
+    btn.textContent = '🚀 一键全部签到';
+  }
+}
+function launchBatchItemByKey(key) {
+  const item = totalItems.find(it => it.key === key);
+  if (!item) return false;
+  window.location.href = item.url;
+  return true;
+}
+function continueBatchSign(options = {}) {
+  const { fromReturn = false } = options;
+  let state = getBatchState();
+  if (!state) {
+    openAll();
+    return;
+  }
+  if (fromReturn && state.currentKey) {
+    allDone[state.currentKey] = true;
+    setDone(allDone);
+    state.currentKey = null;
+    state.resumePrompted = false;
+    setBatchState(state);
+  }
+  while (state.queueKeys.length) {
+    const nextKey = state.queueKeys.shift();
+    if (!totalItems.some(it => it.key === nextKey) || allDone[nextKey]) {
+      continue;
+    }
+    state.currentKey = nextKey;
+    state.lastLaunchedAt = Date.now();
+    state.resumePrompted = false;
+    setBatchState(state);
+    updateBatchButton();
+    render();
+    launchBatchItemByKey(nextKey);
+    return;
+  }
+  clearBatchState();
+  updateBatchButton();
+  render();
+  alert('连续签到已完成，今天没有未签到项目啦！🎉');
+}
 function openAll() {
-  const remaining = totalItems.filter(it => !allDone[it.key]);
+  const state = getBatchState();
+  if (state && (state.currentKey || state.queueKeys.length)) {
+    continueBatchSign({ fromReturn: !!state.currentKey });
+    return;
+  }
+  const remaining = getVisibleRemainingItems();
   if (remaining.length === 0) {
     alert('今天全签完啦！🎉');
     return;
   }
-  if (!confirm(`还有 ${remaining.length} 个未签到，要全部打开吗？`)) return;
-  remaining.forEach((item, i) => {
-    setTimeout(() => {
-      window.location.href = item.url;
-      allDone[item.key] = true;
-      setDone(allDone);
-    }, i * 800);
+  if (!confirm(`还有 ${remaining.length} 个未签到，要开始连续签到吗？每次返回页面后，会继续打开下一个。`)) return;
+  setBatchState({
+    queueKeys: remaining.map(it => it.key),
+    currentKey: null,
+    lastLaunchedAt: 0,
+    resumePrompted: false
   });
-  setTimeout(() => render(), remaining.length * 800 + 500);
+  updateBatchButton();
+  continueBatchSign();
 }
 function resetAll() {
   if (!confirm('确定要重置今日签到记录？')) return;
   localStorage.removeItem(todayKey());
+  clearBatchState();
   allDone = {};
   render();
 }
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return;
+  const state = getBatchState();
+  if (!state || !state.currentKey || state.resumePrompted) return;
+  if (Date.now() - state.lastLaunchedAt < 1500) return;
+  state.resumePrompted = true;
+  setBatchState(state);
+  setTimeout(() => {
+    const latest = getBatchState();
+    if (!latest || !latest.currentKey) return;
+    if (confirm(`已从京东返回，继续打开下一个？
+将把「${latest.currentKey}」视为已处理。`)) {
+      continueBatchSign({ fromReturn: true });
+    } else {
+      latest.resumePrompted = false;
+      setBatchState(latest);
+      updateBatchButton();
+      render();
+    }
+  }, 300);
+});
 setInterval(() => {
   const curKey = todayKey();
   if (!localStorage.getItem(curKey) && Object.keys(allDone).length) {
     allDone = {};
+    clearBatchState();
     render();
   }
 }, 60000);
 applyGitHubSettingsToInputs();
 refreshHiddenList();
 render();
+updateBatchButton();
 </script>
 </body>
 </html>
