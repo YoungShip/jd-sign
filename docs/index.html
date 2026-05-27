@@ -689,6 +689,7 @@ function render() {
         ${item.lock ? '<span class="lock">🔒</span>' : ''}
       `;
       a.addEventListener('click', function() {
+        cancelBatchSignForManualOpen();
         allDone[key] = true;
         setDone(allDone);
         this.classList.add('done', 'just-done');
@@ -741,6 +742,12 @@ function setBatchState(state) {
 }
 function clearBatchState() {
   localStorage.removeItem(BATCH_KEY);
+}
+function cancelBatchSignForManualOpen() {
+  const state = getBatchState();
+  if (!state || (!state.currentKey && !state.queueKeys.length)) return;
+  clearBatchState();
+  updateBatchButton();
 }
 function getVisibleRemainingItems() {
   return totalItems.filter(it => !allDone[it.key]);
